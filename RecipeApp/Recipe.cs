@@ -61,7 +61,9 @@ namespace RecipeApp
                 Console.WriteLine($"{i + 1}. {steps[i].Description}");
             }
         }
-
+        /// <summary>
+        /// Scales the recipe by the specified factor, adjusting all ingredient quantities accordingly.
+        /// </summary>
         public void ScaleRecipe(double factor)
         {
             for (int i = 0; i < ingredientCount; i++)
@@ -75,7 +77,9 @@ namespace RecipeApp
             // Reset ingredients to original values
             // (You would need to store original quantities separately and reset them here)
         }
-
+        /// <summary>
+        /// Clears all data from the recipe, allowing for the entry of a new recipe.
+        /// </summary>
         public void ClearData()
         {
             Console.WriteLine("Are you sure you want to clear all data? (Y/N)");
@@ -96,4 +100,5 @@ namespace RecipeApp
         }
     }
 }
+///////////////////////////////////////////////////////////////////////End Of File///////////////////////////////////////////////////////////////////////////////////////
 

@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System;
 
 namespace RecipeApp
 {
+    /// <summary>
+    /// This class contains the entry point and main logic of the RecipeApp program.
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
         {
-            Recipe recipe = null;
+            Recipe recipe = null;// Initialize variable to hold the recipe
 
             while (true)
             {
@@ -19,7 +21,7 @@ namespace RecipeApp
 
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
-
+                // Switch statement to perform actions based on user's choice
                 switch (choice)
                 {
                     case "1":
@@ -38,7 +40,7 @@ namespace RecipeApp
                     case "3":
                         if (recipe != null)
                         {
-                            ScaleRecipe(recipe);
+                            ScaleRecipe(recipe);// Scale the recipe
                         }
                         else
                         {
@@ -48,7 +50,7 @@ namespace RecipeApp
                     case "4":
                         if (recipe != null)
                         {
-                            recipe.ResetQuantities();
+                            recipe.ResetQuantities();// Reset ingredient quantities
                             Console.WriteLine("Quantities reset successfully.");
                         }
                         else
@@ -68,7 +70,7 @@ namespace RecipeApp
                         }
                         break;
                     case "6":
-                        Console.WriteLine("Exiting program...");
+                        Console.WriteLine("Exiting program...");// Exit the program
                         return;
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
@@ -146,5 +148,6 @@ namespace RecipeApp
         }
     }
 }
+///////////////////////////////////////////////////////////////////////End Of File///////////////////////////////////////////////////////////////////////////////////////
 
 

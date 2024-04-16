@@ -71,6 +71,10 @@ namespace RecipeApp
                 ingredients[i].Quantity *= factor;
             }
         }
+        public void ResetQuantities()
+        {
+            // Reset ingredients to original values
+        }
     }
 }
 

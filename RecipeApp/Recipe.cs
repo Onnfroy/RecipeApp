@@ -21,8 +21,6 @@ namespace RecipeApp
             stepCount = 0;
         }
 
-        // Commit 2: Implemented Recipe Class
-        // Added the Recipe class with methods for adding ingredients, steps, and displaying the recipe.
         public void AddIngredient(Ingredient ingredient)
         {
             if (ingredientCount < ingredients.Length)
@@ -71,9 +69,30 @@ namespace RecipeApp
                 ingredients[i].Quantity *= factor;
             }
         }
+
         public void ResetQuantities()
         {
             // Reset ingredients to original values
+            // (You would need to store original quantities separately and reset them here)
+        }
+
+        public void ClearData()
+        {
+            Console.WriteLine("Are you sure you want to clear all data? (Y/N)");
+            string response = Console.ReadLine().ToLower();
+
+            if (response == "y" || response == "yes")
+            {
+                Array.Clear(ingredients, 0, ingredientCount);
+                Array.Clear(steps, 0, stepCount);
+                ingredientCount = 0;
+                stepCount = 0;
+                Console.WriteLine("Data cleared successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Operation canceled.");
+            }
         }
     }
 }

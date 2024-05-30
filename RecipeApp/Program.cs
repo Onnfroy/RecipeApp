@@ -91,6 +91,112 @@ namespace RecipeApp
                 string foodGroup = Console.ReadLine();
 
                 recipe.AddIngredient(new Ingredient { Name = ingredientName, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup });
+            }
+
+            for (int i = 0; i < stepCount; i++)
+            {
+                Console.WriteLine($"Enter details for step {i + 1}:");
+                Console.Write("Description: ");
+                string description = Console.ReadLine();
+
+                recipe.AddStep(new Step { Description = description });
+            }
+
+            recipes.Add(recipe);
+            Console.WriteLine("Recipe entered successfully.");
+        }
+
+        /// <summary>
+        /// Displays all recipes in alphabetical order.
+        /// </summary>
+        static void DisplayRecipes()
+        {
+            if (recipes.Count == 0)
+            {
+                Console.WriteLine("No recipes available.");
+                return;
+            }
+
+            var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
+
+            Console.WriteLine("Recipes:");
+            for (int i = 0; i < sortedRecipes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
+            }
+
+            Console.Write("Enter the number of the recipe to display: ");
+            int index = int.Parse(Console.ReadLine()) - 1;
+
+            if (index >= 0 && index < sortedRecipes.Count)
+            {
+                sortedRecipes[index].DisplayRecipe();
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection.");
+            }
+        }
+
+        /// <summary>
+        /// Scales the quantities of a selected recipe.
+        /// </summary>
+        static void ScaleSelectedRecipe()
+        {
+            Console.Write("Enter the name of the recipe to scale: ");
+            string name = Console.ReadLine();
+
+            Recipe recipe = recipes.FirstOrDefault(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+            if (recipe != null)
+            {
+                Console.Write("Enter scale factor (0.5, 2, or 3): ");
+                if (double.TryParse(Console.ReadLine(), out double factor))
+                {
+                    recipe.ScaleRecipe(factor);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid scale factor.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Recipe not found.");
+            }
+        }
+
+        /// <summary>
+        /// Resets the quantities of ingredients in a selected recipe.
+        /// </summary>
+        static void ResetQuantities()
+        {
+            Console.Write("Enter the name of the recipe to reset quantities: ");
+            string name = Console.ReadLine();
+
+            Recipe recipe = recipes.FirstOrDefault(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+            if (recipe != null)
+            {
+                recipe.ResetQuantities();
+                Console.WriteLine("Quantities reset successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Recipe not found.");
+            }
+        }
+
+        /// <summary>
+        /// Clears all recipe data.
+        /// </summary>
+        static void ClearAllData()
+        {
+            recipes.Clear();
+            Console.WriteLine("All data cleared successfully.");
+        }
+    }
+}
 ///////////////////////////////////////////////////////////////////////End Of File///////////////////////////////////////////////////////////////////////////////////////
 
 

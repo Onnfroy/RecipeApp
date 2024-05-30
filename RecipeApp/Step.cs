@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace RecipeApp
 {
-    class Step
+    /// <summary>
+    /// Represents a step in a recipe.
+    /// </summary>
+    public class Step
     {
+        /// <summary>
+        /// Gets or sets the description of the step.
+        /// </summary>
         public string Description { get; set; }
     }
 }

@@ -4,47 +4,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System;
+using System.Collections.Generic;
+
 namespace RecipeApp
 {
-    class Recipe
+    /// <summary>
+    /// Represents a recipe consisting of ingredients and steps.
+    /// </summary>
+    public class Recipe
     {
-        private Ingredient[] ingredients;
-        private Step[] steps;
-        private int ingredientCount;
-        private int stepCount;
+        private List<Ingredient> ingredients; // List of ingredients in the recipe
+        private List<Step> steps; // List of steps in the recipe
 
-        public Recipe(int maxIngredients, int maxSteps)
+        /// <summary>
+        /// Gets or sets the name of the recipe.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Delegate for calorie alert notifications.
+        /// </summary>
+        /// <param name="message">The alert message.</param>
+        public delegate void CalorieAlert(string message);
+
+        /// <summary>
+        /// Event triggered when the total calories exceed a specified limit.
+        /// </summary>
+        public event CalorieAlert OnCalorieAlert;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Recipe"/> class.
+        /// </summary>
+        public Recipe()
         {
-            ingredients = new Ingredient[maxIngredients];
-            steps = new Step[maxSteps];
-            ingredientCount = 0;
-            stepCount = 0;
+            ingredients = new List<Ingredient>();
+            steps = new List<Step>();
         }
 
+        /// <summary>
+        /// Adds an ingredient to the recipe.
+        /// </summary>
+        /// <param name="ingredient">The ingredient to add.</param>
         public void AddIngredient(Ingredient ingredient)
         {
-            if (ingredientCount < ingredients.Length)
-            {
-                ingredients[ingredientCount] = ingredient;
-                ingredientCount++;
-            }
-            else
-            {
-                Console.WriteLine("Cannot add more ingredients. Array is full.");
-            }
+            ingredients.Add(ingredient);
         }
 
+        /// <summary>
+        /// Adds a step to the recipe.
+        /// </summary>
+        /// <param name="step">The step to add.</param>
         public void AddStep(Step step)
         {
-            if (stepCount < steps.Length)
-            {
-                steps[stepCount] = step;
-                stepCount++;
-            }
-            else
-            {
-                Console.WriteLine("Cannot add more steps. Array is full.");
-            }
+            steps.Add(step);
         }
 
         public void DisplayRecipe()

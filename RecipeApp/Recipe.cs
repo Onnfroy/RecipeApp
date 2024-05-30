@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System;
-using System.Collections.Generic;
-
 namespace RecipeApp
 {
     /// <summary>
@@ -85,6 +82,7 @@ namespace RecipeApp
                 OnCalorieAlert?.Invoke($"Warning: Total calories exceed 300. Total: {totalCalories}");
             }
         }
+
         /// <summary>
         /// Scales the recipe by the specified factor.
         /// </summary>

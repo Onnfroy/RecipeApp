@@ -60,57 +60,88 @@ namespace RecipeApp
             steps.Add(step);
         }
 
+        /// <summary>
+        /// Displays the recipe details.
+        /// </summary>
         public void DisplayRecipe()
         {
-            Console.WriteLine("Recipe:");
+            Console.WriteLine($"Recipe: {Name}");
             Console.WriteLine("Ingredients:");
-            for (int i = 0; i < ingredientCount; i++)
+            foreach (var ingredient in ingredients)
             {
-                Console.WriteLine($"{i + 1}. {ingredients[i].Quantity} {ingredients[i].Unit} of {ingredients[i].Name}");
+                Console.WriteLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} ({ingredient.Calories} calories, {ingredient.FoodGroup})");
             }
             Console.WriteLine("Steps:");
-            for (int i = 0; i < stepCount; i++)
+            for (int i = 0; i < steps.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {steps[i].Description}");
             }
-        }
-        /// <summary>
-        /// Scales the recipe by the specified factor, adjusting all ingredient quantities accordingly.
-        /// </summary>
-        public void ScaleRecipe(double factor)
-        {
-            for (int i = 0; i < ingredientCount; i++)
+            int totalCalories = CalculateTotalCalories();
+            Console.WriteLine($"Total Calories: {totalCalories}");
+
+            // Trigger the calorie alert if total calories exceed 300
+            if (totalCalories > 300)
             {
-                ingredients[i].Quantity *= factor;
+                OnCalorieAlert?.Invoke($"Warning: Total calories exceed 300. Total: {totalCalories}");
             }
         }
+        /// <summary>
+        /// Scales the recipe by the specified factor.
+        /// </summary>
+        /// <param name="factor">The scaling factor.</param>
+        public void ScaleRecipe(double factor)
+        {
+            foreach (var ingredient in ingredients)
+            {
+                ingredient.Quantity *= factor;
+            }
+            Console.WriteLine("Recipe scaled successfully.");
+        }
 
+        /// <summary>
+        /// Resets the quantities of ingredients to their original values.
+        /// </summary>
         public void ResetQuantities()
         {
-            // Reset ingredients to original values
-            // (You would need to store original quantities separately and reset them here)
+            // Assuming you store original quantities separately if needed
         }
+
         /// <summary>
-        /// Clears all data from the recipe, allowing for the entry of a new recipe.
+        /// Clears all data from the recipe.
         /// </summary>
         public void ClearData()
         {
-            Console.WriteLine("Are you sure you want to clear all data? (Y/N)");
-            string response = Console.ReadLine().ToLower();
-
-            if (response == "y" || response == "yes")
-            {
-                Array.Clear(ingredients, 0, ingredientCount);
-                Array.Clear(steps, 0, stepCount);
-                ingredientCount = 0;
-                stepCount = 0;
-                Console.WriteLine("Data cleared successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Operation canceled.");
-            }
+            ingredients.Clear();
+            steps.Clear();
+            Name = string.Empty;
+            Console.WriteLine("Data cleared successfully.");
         }
+
+        /// <summary>
+        /// Calculates the total calories of the recipe.
+        /// </summary>
+        /// <returns>The total calories.</returns>
+        public int CalculateTotalCalories()
+        {
+            int totalCalories = 0;
+            foreach (var ingredient in ingredients)
+            {
+                totalCalories += ingredient.Calories;
+            }
+            return totalCalories;
+        }
+
+        /// <summary>
+        /// Gets the list of ingredients.
+        /// </summary>
+        /// <returns>A list of ingredients.</returns>
+        public List<Ingredient> GetIngredients() => ingredients;
+
+        /// <summary>
+        /// Gets the list of steps.
+        /// </summary>
+        /// <returns>A list of steps.</returns>
+        public List<Step> GetSteps() => steps;
     }
 }
 ///////////////////////////////////////////////////////////////////////End Of File///////////////////////////////////////////////////////////////////////////////////////

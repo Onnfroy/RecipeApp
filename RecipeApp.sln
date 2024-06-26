@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp", "RecipeApp\Reci
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApp.Tests", "RecipeApp.Tests\RecipeApp.Tests.csproj", "{8A907B3F-198E-42CC-A9D4-BE034D206304}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeAppWPF", "RecipeAppWPF\RecipeAppWPF.csproj", "{6A10B621-AA2A-4D02-9D3E-A6A02D771727}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8A907B3F-198E-42CC-A9D4-BE034D206304}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A907B3F-198E-42CC-A9D4-BE034D206304}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A907B3F-198E-42CC-A9D4-BE034D206304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A10B621-AA2A-4D02-9D3E-A6A02D771727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A10B621-AA2A-4D02-9D3E-A6A02D771727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A10B621-AA2A-4D02-9D3E-A6A02D771727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A10B621-AA2A-4D02-9D3E-A6A02D771727}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

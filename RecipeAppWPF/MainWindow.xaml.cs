@@ -24,5 +24,24 @@ namespace RecipeAppWPF
         {
             InitializeComponent();
         }
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void AddRecipe_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new AddRecipePage();
+        }
+
+        private void ViewRecipes_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new ViewRecipesPage();
+        }
+
+        private void CreateMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new CreateMenuPage();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecipeApp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,21 @@ namespace RecipeAppWPF
         public ViewRecipesPage()
         {
             InitializeComponent();
+            LoadRecipes();
+        }
+
+        private void LoadRecipes()
+        {
+            var recipes = Program.recipes.OrderBy(r => r.Name).ToList();
+            RecipesListBox.ItemsSource = recipes;
+        }
+
+        private void RecipesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (RecipesListBox.SelectedItem is Recipe selectedRecipe)
+            {
+                RecipeDetails.Text = selectedRecipe.DisplayRecipe();
+            }
         }
     }
 }

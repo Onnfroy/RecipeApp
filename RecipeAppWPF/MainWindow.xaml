@@ -7,5 +7,22 @@
         mc:Ignorable="d"
         Title="Recipe App" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Recipes">
+                <MenuItem Header="Add Recipe" Click="AddRecipe_Click"/>
+                <MenuItem Header="View Recipes" Click="ViewRecipes_Click"/>
+                <MenuItem Header="Create Menu" Click="CreateMenu_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <ContentControl Grid.Row="1" Name="MainContent"/>
     </Grid>
 </Window>

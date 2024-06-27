@@ -26,6 +26,7 @@ namespace RecipeAppWPF
             LoadRecipes();
         }
 
+        // Loads the recipes into the ListBox for selection
         private void LoadRecipes()
         {
             RecipeListBox.Items.Clear();
@@ -35,23 +36,28 @@ namespace RecipeAppWPF
             }
         }
 
+        // Event handler for generating the menu and pie chart
         private void GenerateMenuButton_Click(object sender, RoutedEventArgs e)
         {
+            // Get the selected recipes from the ListBox
             var selectedRecipes = RecipeListBox.SelectedItems.Cast<string>().ToList();
             var selectedRecipeObjects = MainWindow.Recipes.Where(r => selectedRecipes.Contains(r.Name)).ToList();
 
+            // Ensure at least one recipe is selected
             if (selectedRecipeObjects.Count == 0)
             {
                 MessageBox.Show("Please select at least one recipe.");
                 return;
             }
 
+            // Calculate the distribution of food groups by summing the calories
             var foodGroupDistribution = selectedRecipeObjects
                 .SelectMany(r => r.Ingredients)
                 .GroupBy(i => i.FoodGroup)
                 .Select(g => new { FoodGroup = g.Key, TotalCalories = g.Sum(i => i.Calories * i.Quantity) })
                 .ToList();
 
+            // Create the pie series for the chart
             var pieSeries = new SeriesCollection();
 
             foreach (var group in foodGroupDistribution)
@@ -64,6 +70,7 @@ namespace RecipeAppWPF
                 });
             }
 
+            // Assign the pie series to the PieChart control
             PieChart.Series = pieSeries;
         }
     }

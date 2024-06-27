@@ -3,12 +3,11 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
                    Title="MainWindow" Height="450" Width="800">
-    <Window.Background>
+    <metro:MetroWindow.Background>
         <ImageBrush ImageSource="https://www.foodwise.com.au/wp-content/themes/foodwise/images/bg-6.jpg"
-                    RenderOptions.BitmapScalingMode="HighQuality">
-        </ImageBrush>
-    </Window.Background>
-    <Window.Resources>
+                    RenderOptions.BitmapScalingMode="HighQuality"/>
+    </metro:MetroWindow.Background>
+    <metro:MetroWindow.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="LightGray"/>
             <Setter Property="Margin" Value="10"/>
@@ -19,19 +18,45 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-    </Window.Resources>
+    </metro:MetroWindow.Resources>
     <Grid>
         <StackPanel>
             <TextBlock Text="Sanele's Recipe Application" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
             <Button Content="Add New Recipe" Click="AddNewRecipeButton_Click"/>
             <Button Content="View Recipe Menu" Click="ViewRecipeMenuButton_Click"/>
             <ListView Name="RecipeListView" Margin="10">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                        <GridViewColumn Header="Total Calories" DisplayMemberBinding="{Binding TotalCalories}" Width="100"/>
-                    </GridView>
-                </ListView.View>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Expander Header="{Binding Name}" IsExpanded="False">
+                            <StackPanel>
+                                <TextBlock Text="Total Calories:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding TotalCalories}" Margin="5,0,0,0"/>
+                                <TextBlock Text="Ingredients:" FontWeight="Bold" Margin="5,0,0,0"/>
+                                <ItemsControl ItemsSource="{Binding Ingredients}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}" />
+                                                <TextBlock Text="{Binding Quantity, StringFormat='Quantity: {0}'}" />
+                                                <TextBlock Text="{Binding Unit, StringFormat='Unit: {0}'}" />
+                                                <TextBlock Text="{Binding Calories, StringFormat='Calories: {0}'}" />
+                                                <TextBlock Text="{Binding FoodGroup, StringFormat='Food Group: {0}'}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock Text="Steps:" FontWeight="Bold" Margin="5,0,0,0"/>
+                                <ItemsControl ItemsSource="{Binding Steps}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" Margin="5,0,0,0"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Expander>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
     </Grid>

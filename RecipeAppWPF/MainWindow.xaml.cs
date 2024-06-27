@@ -24,17 +24,14 @@ namespace RecipeAppWPF
         public MainWindow()
         {
             InitializeComponent();
-            MessageBox.Show("Welcome to Sanele's recipe application!", "Welcome", MessageBoxButton.OK, MessageBoxImage.Information);
             LoadRecipes();
+            MessageBox.Show("Welcome to Sanele's recipe application!");
         }
 
         private void LoadRecipes()
         {
-            RecipeListView.Items.Clear();
-            foreach (var recipe in Recipes)
-            {
-                RecipeListView.Items.Add(new { Name = recipe.Name, TotalCalories = recipe.CalculateTotalCalories() });
-            }
+            RecipeListView.ItemsSource = null;
+            RecipeListView.ItemsSource = Recipes;
         }
 
         private void AddNewRecipeButton_Click(object sender, RoutedEventArgs e)
@@ -51,4 +48,3 @@ namespace RecipeAppWPF
         }
     }
 }
-

@@ -13,13 +13,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace RecipeAppWPF
 {
-    /// <summary>
-    /// Interaction logic for CreateMenuPage.xaml
-    /// </summary>
-    public partial class CreateMenuPage : Page
+    public partial class CreateMenuPage : Window
     {
         public CreateMenuPage()
         {
@@ -29,46 +28,43 @@ namespace RecipeAppWPF
 
         private void LoadRecipes()
         {
-            var recipes = Program.recipes.OrderBy(r => r.Name).ToList();
-            RecipesListBox.ItemsSource = recipes;
+            RecipeListBox.Items.Clear();
+            foreach (var recipe in MainWindow.Recipes)
+            {
+                RecipeListBox.Items.Add(recipe.Name);
+            }
         }
 
-        private void GeneratePieChart_Click(object sender, RoutedEventArgs e)
+        private void GenerateMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedRecipes = RecipesListBox.SelectedItems.Cast<Recipe>().ToList();
-            if (selectedRecipes.Count == 0)
+            var selectedRecipes = RecipeListBox.SelectedItems.Cast<string>().ToList();
+            var selectedRecipeObjects = MainWindow.Recipes.Where(r => selectedRecipes.Contains(r.Name)).ToList();
+
+            if (selectedRecipeObjects.Count == 0)
             {
                 MessageBox.Show("Please select at least one recipe.");
                 return;
             }
 
-            var foodGroupCounts = new Dictionary<string, double>();
+            var foodGroupDistribution = selectedRecipeObjects
+                .SelectMany(r => r.Ingredients)
+                .GroupBy(i => i.FoodGroup)
+                .Select(g => new { FoodGroup = g.Key, TotalCalories = g.Sum(i => i.Calories * i.Quantity) })
+                .ToList();
 
-            foreach (var recipe in selectedRecipes)
+            var pieSeries = new SeriesCollection();
+
+            foreach (var group in foodGroupDistribution)
             {
-                foreach (var ingredient in recipe.GetIngredients())
+                pieSeries.Add(new PieSeries
                 {
-                    if (foodGroupCounts.ContainsKey(ingredient.FoodGroup))
-                    {
-                        foodGroupCounts[ingredient.FoodGroup] += ingredient.Quantity;
-                    }
-                    else
-                    {
-                        foodGroupCounts[ingredient.FoodGroup] = ingredient.Quantity;
-                    }
-                }
+                    Title = group.FoodGroup,
+                    Values = new ChartValues<double> { group.TotalCalories },
+                    DataLabels = true
+                });
             }
 
-            FoodGroupChart.Series.Clear();
-            foreach (var foodGroup in foodGroupCounts)
-            {
-                var pieSeries = new PieSeries
-                {
-                    Title = foodGroup.Key,
-                    Values = new ChartValues<double> { foodGroup.Value }
-                };
-                FoodGroupChart.Series.Add(pieSeries);
-            }
+            PieChart.Series = pieSeries;
         }
     }
 }

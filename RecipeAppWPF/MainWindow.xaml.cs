@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecipeApp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,36 +13,42 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
 namespace RecipeAppWPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
+        public static List<Recipe> Recipes = new List<Recipe>();
+
         public MainWindow()
         {
             InitializeComponent();
-        }
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
+            MessageBox.Show("Welcome to Sanele's recipe application!", "Welcome", MessageBoxButton.OK, MessageBoxImage.Information);
+            LoadRecipes();
         }
 
-        private void AddRecipe_Click(object sender, RoutedEventArgs e)
+        private void LoadRecipes()
         {
-            MainContent.Content = new AddRecipePage();
+            RecipeListView.Items.Clear();
+            foreach (var recipe in Recipes)
+            {
+                RecipeListView.Items.Add(new { Name = recipe.Name, TotalCalories = recipe.CalculateTotalCalories() });
+            }
         }
 
-        private void ViewRecipes_Click(object sender, RoutedEventArgs e)
+        private void AddNewRecipeButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new ViewRecipesPage();
+            var addRecipePage = new AddRecipePage();
+            addRecipePage.ShowDialog();
+            LoadRecipes(); // Reload the recipes list after a new recipe is added
         }
 
-        private void CreateMenu_Click(object sender, RoutedEventArgs e)
+        private void ViewRecipeMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new CreateMenuPage();
+            var createMenuPage = new CreateMenuPage();
+            createMenuPage.ShowDialog();
         }
     }
 }
+

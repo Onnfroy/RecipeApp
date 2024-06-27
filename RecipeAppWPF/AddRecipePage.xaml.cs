@@ -16,37 +16,83 @@ using System.Windows.Shapes;
 
 namespace RecipeAppWPF
 {
-    /// <summary>
-    /// Interaction logic for AddRecipePage.xaml
-    /// </summary>
-    public partial class AddRecipePage : Page
+    public partial class AddRecipePage : Window
     {
+        private List<Ingredient> ingredients = new List<Ingredient>();
+        private List<Step> steps = new List<Step>();
+
         public AddRecipePage()
         {
             InitializeComponent();
-            recipe = new Recipe();
         }
 
-        private void AddIngredient_Click(object sender, RoutedEventArgs e)
+        private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
         {
-            Ingredient ingredient = new Ingredient
+            string name = IngredientNameTextBox.Text.Trim();
+            string quantityText = IngredientQuantityTextBox.Text.Trim();
+            string unit = IngredientUnitTextBox.Text.Trim();
+            string caloriesText = IngredientCaloriesTextBox.Text.Trim();
+            string foodGroup = IngredientFoodGroupTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(quantityText) ||
+                string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(caloriesText) || string.IsNullOrWhiteSpace(foodGroup))
             {
-                Name = IngredientName.Text,
-                Quantity = double.Parse(Quantity.Text),
-                Unit = Unit.Text,
-                Calories = int.Parse(Calories.Text),
-                FoodGroup = FoodGroup.Text
-            };
-            recipe.AddIngredient(ingredient);
-            MessageBox.Show("Ingredient added.");
+                MessageBox.Show("Please fill in all ingredient fields.");
+                return;
+            }
+
+            if (!double.TryParse(quantityText, out double quantity) || !int.TryParse(caloriesText, out int calories))
+            {
+                MessageBox.Show("Invalid quantity or calories value.");
+                return;
+            }
+
+            ingredients.Add(new Ingredient
+            {
+                Name = name,
+                Quantity = quantity,
+                Unit = unit,
+                Calories = calories,
+                FoodGroup = foodGroup
+            });
+
+            MessageBox.Show("Ingredient added successfully!");
+            IngredientNameTextBox.Clear();
+            IngredientQuantityTextBox.Clear();
+            IngredientUnitTextBox.Clear();
+            IngredientCaloriesTextBox.Clear();
+            IngredientFoodGroupTextBox.Clear();
         }
 
-        private void SaveRecipe_Click(object sender, RoutedEventArgs e)
+        private void FinishRecipeButton_Click(object sender, RoutedEventArgs e)
         {
-            recipe.Name = RecipeName.Text;
-            Program.recipes.Add(recipe); // Ensure Program.recipes is public or modify as needed.
-            MessageBox.Show("Recipe saved.");
+            string name = RecipeNameTextBox.Text.Trim();
+            string stepsInput = StepsTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(name) || ingredients.Count == 0 || string.IsNullOrWhiteSpace(stepsInput))
+            {
+                MessageBox.Show("Please fill in all fields and add at least one ingredient.");
+                return;
+            }
+
+            foreach (var step in stepsInput.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                steps.Add(new Step { Description = step.Trim() });
+            }
+
+            var newRecipe = new Recipe
+            {
+                Name = name,
+                Ingredients = ingredients,
+                Steps = steps
+            };
+
+            MainWindow.Recipes.Add(newRecipe);
+            MessageBox.Show("Recipe added successfully!");
+            this.Close();
         }
     }
-    }
+}
+
+
 

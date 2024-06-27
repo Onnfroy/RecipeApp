@@ -1,15 +1,18 @@
 ﻿<Page x:Class="RecipeAppWPF.ViewRecipesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:RecipeAppWPF"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="View Recipes">
+      Title="ViewRecipesPage">
 
     <Grid>
-        <ListBox Name="RecipesListBox" SelectionChanged="RecipesListBox_SelectionChanged"/>
-        <TextBlock Name="RecipeDetails"/>
+        <ListBox x:Name="RecipesListBox" 
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top" 
+                 Width="200"
+                 SelectionChanged="RecipesListBox_SelectionChanged"/>
+        <TextBlock x:Name="RecipeDetails" 
+                   HorizontalAlignment="Right" 
+                   VerticalAlignment="Top" 
+                   Width="300" 
+                   TextWrapping="Wrap"/>
     </Grid>
 </Page>

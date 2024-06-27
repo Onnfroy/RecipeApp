@@ -14,11 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace RecipeAppWPF
 {
-    /// <summary>
-    /// Interaction logic for ViewRecipesPage.xaml
-    /// </summary>
     public partial class ViewRecipesPage : Page
     {
         public ViewRecipesPage()
@@ -37,8 +35,9 @@ namespace RecipeAppWPF
         {
             if (RecipesListBox.SelectedItem is Recipe selectedRecipe)
             {
-                RecipeDetails.Text = selectedRecipe.DisplayRecipe();
+                RecipeDetails.Text = selectedRecipe.GetRecipeDetails();
             }
         }
     }
 }
+

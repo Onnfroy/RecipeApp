@@ -11,8 +11,15 @@ namespace RecipeApp
     /// </summary>
     public class Recipe
     {
-        private List<Ingredient> ingredients; // List of ingredients in the recipe
-        private List<Step> steps; // List of steps in the recipe
+        /// <summary>
+        /// List of ingredients in the recipe
+        /// </summary>
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+
+        /// <summary>
+        /// List of steps in the recipe
+        /// </summary>
+        public List<Step> Steps { get; set; } = new List<Step>();
 
         /// <summary>
         /// Gets or sets the name of the recipe.
@@ -35,8 +42,8 @@ namespace RecipeApp
         /// </summary>
         public Recipe()
         {
-            ingredients = new List<Ingredient>();
-            steps = new List<Step>();
+            Ingredients = new List<Ingredient>();
+            Steps = new List<Step>();
         }
 
         /// <summary>
@@ -45,7 +52,7 @@ namespace RecipeApp
         /// <param name="ingredient">The ingredient to add.</param>
         public void AddIngredient(Ingredient ingredient)
         {
-            ingredients.Add(ingredient);
+            Ingredients.Add(ingredient);
         }
 
         /// <summary>
@@ -54,7 +61,7 @@ namespace RecipeApp
         /// <param name="step">The step to add.</param>
         public void AddStep(Step step)
         {
-            steps.Add(step);
+            Steps.Add(step);
         }
 
         /// <summary>
@@ -64,19 +71,20 @@ namespace RecipeApp
         {
             Console.WriteLine($"Recipe: {Name}");
             Console.WriteLine("Ingredients:");
-            foreach (var ingredient in ingredients)
+            foreach (var ingredient in Ingredients)
             {
-                Console.WriteLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} ({ingredient.Calories} calories, {ingredient.FoodGroup})");
+                Console.WriteLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} ({ingredient.Calories} calories)");
             }
+
             Console.WriteLine("Steps:");
-            for (int i = 0; i < steps.Count; i++)
+            for (int i = 0; i < Steps.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {steps[i].Description}");
+                Console.WriteLine($"{i + 1}. {Steps[i].Description}");
             }
+
             int totalCalories = CalculateTotalCalories();
             Console.WriteLine($"Total Calories: {totalCalories}");
 
-            // Trigger the calorie alert if total calories exceed 300
             if (totalCalories > 300)
             {
                 OnCalorieAlert?.Invoke($"Warning: Total calories exceed 300. Total: {totalCalories}");
@@ -89,7 +97,7 @@ namespace RecipeApp
         /// <param name="factor">The scaling factor.</param>
         public void ScaleRecipe(double factor)
         {
-            foreach (var ingredient in ingredients)
+            foreach (var ingredient in Ingredients)
             {
                 ingredient.Quantity *= factor;
             }
@@ -109,8 +117,8 @@ namespace RecipeApp
         /// </summary>
         public void ClearData()
         {
-            ingredients.Clear();
-            steps.Clear();
+            Ingredients.Clear();
+            Steps.Clear();
             Name = string.Empty;
             Console.WriteLine("Data cleared successfully.");
         }
@@ -122,7 +130,7 @@ namespace RecipeApp
         public int CalculateTotalCalories()
         {
             int totalCalories = 0;
-            foreach (var ingredient in ingredients)
+            foreach (var ingredient in Ingredients)
             {
                 totalCalories += ingredient.Calories;
             }
@@ -133,14 +141,41 @@ namespace RecipeApp
         /// Gets the list of ingredients.
         /// </summary>
         /// <returns>A list of ingredients.</returns>
-        public List<Ingredient> GetIngredients() => ingredients;
+        public List<Ingredient> GetIngredients() => Ingredients;
 
         /// <summary>
         /// Gets the list of steps.
         /// </summary>
         /// <returns>A list of steps.</returns>
-        public List<Step> GetSteps() => steps;
+        public List<Step> GetSteps() => Steps;
+        public string GetRecipeDetails()
+        {
+            StringBuilder details = new StringBuilder();
+            details.AppendLine($"Recipe: {Name}");
+            details.AppendLine("Ingredients:");
+            foreach (var ingredient in Ingredients)
+            {
+                details.AppendLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} ({ingredient.Calories} calories)");
+            }
+
+            details.AppendLine("Steps:");
+            for (int i = 0; i < Steps.Count; i++)
+            {
+                details.AppendLine($"{i + 1}. {Steps[i].Description}");
+            }
+
+            int totalCalories = CalculateTotalCalories();
+            details.AppendLine($"Total Calories: {totalCalories}");
+
+            if (totalCalories > 300)
+            {
+                details.AppendLine($"Warning: Total calories exceed 300. Total: {totalCalories}");
+            }
+
+            return details.ToString();
+        }
     }
 }
+
 ///////////////////////////////////////////////////////////////////////End Of File///////////////////////////////////////////////////////////////////////////////////////
 

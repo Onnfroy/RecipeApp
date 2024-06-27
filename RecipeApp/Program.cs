@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RecipeApp
 {
-    class Program
+    public class Program
     {
-        static List<Recipe> recipes = new List<Recipe>(); // List to store all recipes
+        public static List<Recipe> recipes = new List<Recipe>(); // List to store all recipes
 
         static void Main(string[] args)
         {
